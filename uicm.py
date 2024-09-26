@@ -1,6 +1,4 @@
 import numpy as np
-import math
-import cv2
 
 def calculate_uicm(img, alphaL, alphaR):
 
@@ -18,16 +16,16 @@ def calculate_uicm(img, alphaL, alphaR):
     yb.sort()
 
     # Calculate the mean values for RG and YB within the thresholded range
-    TalphaL = math.ceil(len(rg) * alphaL)
-    TalphaR = math.floor(len(rg) * alphaR)
+    TalphaL = int(np.ceil(len(rg) * alphaL))
+    TalphaR = int(np.floor(len(rg) * alphaR))
 
-    meanRG = np.mean(rg[TalphaL:-TalphaL])
-    meanYB = np.mean(yb[TalphaL:-TalphaL])
+    meanRG = np.mean(rg[TalphaL:-TalphaR])
+    meanYB = np.mean(yb[TalphaL:-TalphaR])
 
-    varianceRG = np.var(rg[TalphaL:-TalphaL])
-    varianceYB = np.var(yb[TalphaL:-TalphaL])
+    varianceRG = np.var(rg[TalphaL:-TalphaR])
+    varianceYB = np.var(yb[TalphaL:-TalphaR])
 
     # Calculate UICM
-    result = -0.0268 * np.sqrt(meanRG ** 2 + meanYB ** 2) + 0.1586 * math.sqrt(varianceRG + varianceYB)
+    result = -0.0268 * np.sqrt(meanRG ** 2 + meanYB ** 2) + 0.1586 * np.sqrt(varianceRG + varianceYB)
     print(f"UICM: {result}")
     return result
